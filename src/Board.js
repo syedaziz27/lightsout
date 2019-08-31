@@ -87,28 +87,20 @@ class Board extends Component {
   /** Render game board or winning message. */
 
   render() {
+    const tableBoard = [];
+    for (let y = 0; y < this.props.nrows; y++) {
+      const row = [];
+      for (let x = 0; x < this.props.ncols; x++) {
+        const coord = `${y}-${x}`;
+        row.push(<Cell isLit={this.state.board[y][x]} key={coord} />);
+      }
+      tableBoard.push(<tr key={y}>{row}</tr>);
+    }
     return (
-      <table>
-        <tbody>
-          {this.state.board.map((row, i) => {
-            return (
-              <trow>
-                {row.map(cell => {
-                  return <Cell></Cell>;
-                })}
-              </trow>
-            );
-          })}
-        </tbody>
+      <table className="Board">
+        <tbody>{tableBoard}</tbody>
       </table>
     );
-    // if the game is won, just show a winning msg & render nothing else
-
-    // TODO
-
-    // make table board
-
-    // TODO
   }
 }
 
