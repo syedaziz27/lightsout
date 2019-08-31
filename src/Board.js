@@ -61,6 +61,7 @@ class Board extends Component {
   /** handle changing a cell: update board & determine if winner */
 
   flipCellsAround(coord) {
+    console.log("flipping", coord);
     let { ncols, nrows } = this.props;
     let board = this.state.board;
     let [y, x] = coord.split("-").map(Number);
@@ -73,42 +74,48 @@ class Board extends Component {
       }
     }
 
+    flipCell(y, x);
+    flipCell(y, x - 1);
+    flipCell(y, x + 1);
+    flipCell(y + 1, x);
+    flipCell(y - 1, x);
+
     // TODO: flip this cell and the cells around it
 
     // win when every cell is turned off
     // TODO: determine is the game has been won
 
-    // this.setState({
-    //   board,
-    //   hasWon
-    // });
+    const hasWon = board.every(row => row.every(cell => !cell));
+    this.setState({
+      board,
+      hasWon
+    });
   }
 
   /** Render game board or winning message. */
 
   render() {
+    if (this.state.hasWon) return <h1>You won</h1>;
+    const tableBoard = [];
+    for (let y = 0; y < this.props.nrows; y++) {
+      const row = [];
+      for (let x = 0; x < this.props.ncols; x++) {
+        const coord = `${y}-${x}`;
+        row.push(
+          <Cell
+            isLit={this.state.board[y][x]}
+            key={coord}
+            flipCellsAroundMe={() => this.flipCellsAround(coord)}
+          />
+        );
+      }
+      tableBoard.push(<tr key={y}>{row}</tr>);
+    }
     return (
-      <table>
-        <tbody>
-          {this.state.board.map((row, i) => {
-            return (
-              <trow>
-                {row.map(cell => {
-                  return <Cell></Cell>;
-                })}
-              </trow>
-            );
-          })}
-        </tbody>
+      <table className="Board">
+        <tbody>{tableBoard}</tbody>
       </table>
     );
-    // if the game is won, just show a winning msg & render nothing else
-
-    // TODO
-
-    // make table board
-
-    // TODO
   }
 }
 
