@@ -7,6 +7,6 @@ This game was built using the starter code given in Colt Steele's online React c
 ## Screenshots
 
 **Board:**
-![Board](./images/board.png)
+![Board](.src/images/board.png)
 **Winner:**
-![Winner](./images/winner.png)
+![Winner](.src/images/winner.png)
